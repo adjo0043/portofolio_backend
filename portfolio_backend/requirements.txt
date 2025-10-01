@@ -1,0 +1,62 @@
+# Core Django
+Django==4.2.7
+djangorestframework==3.14.0
+
+# Database
+psycopg2-binary==2.9.9  # PostgreSQL adapter (optional, for production)
+
+# API and CORS
+django-cors-headers==4.3.0
+django-filter==23.3
+
+# Caching (Redis)
+django-redis==5.4.0
+redis==5.0.1
+hiredis==2.2.3  # Fast Redis parser
+
+# Image processing
+Pillow==10.1.0
+
+# Environment variables
+python-dotenv==1.0.0
+
+# Static files
+whitenoise==6.6.0
+
+# Email (optional)
+sendgrid==6.11.0  # For SendGrid integration
+
+# Security
+django-ratelimit==4.1.0
+
+# Async tasks (optional)
+celery==5.3.4
+kombu==5.3.4
+
+# Monitoring and logging
+sentry-sdk==1.38.0  # Error tracking (optional)
+
+# Development tools
+django-debug-toolbar==4.2.0  # For development only
+django-extensions==3.2.3  # Useful extensions
+
+# API Documentation
+drf-spectacular==0.26.5  # OpenAPI schema generation
+
+# Testing
+pytest==7.4.3
+pytest-django==4.7.0
+pytest-cov==4.1.0
+factory-boy==3.3.0
+
+# Code quality
+flake8==6.1.0
+black==23.11.0
+isort==5.12.0
+
+# Production server
+gunicorn==21.2.0
+uvicorn==0.24.0  # ASGI server (for async support)
+
+# Utilities
+python-slugify==8.0.1

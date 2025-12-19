@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Portfolio - Full-Stack Developer</title>
+    <title>Alex Djousse | Portfolio Actuariat</title>
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <link rel="stylesheet" href="style.css">
     <!-- Font Awesome for Icons -->
@@ -15,92 +15,64 @@
 </head>
 <body>
     <!-- Skip to main content for accessibility -->
-    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <a href="#main-content" class="skip-link">Aller au contenu</a>
 
     <!-- Navigation -->
-    <nav class="navbar" role="navigation" aria-label="Main navigation">
+    <nav class="navbar" role="navigation" aria-label="Navigation principale">
         <div class="container">
             <div class="nav-brand">
-                <h1>
-                    <span class="logo-icon">👨‍💻</span>
-                    <span class="logo-text">Portfolio</span>
-                </h1>
+                <a class="brand" href="#hero" aria-label="Retour en haut">
+                    <span class="brand-mark">A</span>
+                    <span class="brand-text">Portfolio Actuariat</span>
+                </a>
             </div>
-            <button class="hamburger" id="hamburger" aria-label="Toggle navigation menu" aria-expanded="false">
+            <button class="hamburger" id="hamburger" aria-label="Ouvrir le menu" aria-expanded="false">
                 <span class="hamburger-line"></span>
                 <span class="hamburger-line"></span>
                 <span class="hamburger-line"></span>
             </button>
             <ul class="nav-menu" id="nav-menu">
-                <li><a href="#hero" class="nav-link active" data-section="hero">Home</a></li>
-                <li><a href="#about" class="nav-link" data-section="about">About</a></li>
-                <li><a href="#projects" class="nav-link" data-section="projects">Projects</a></li>
-                <li><a href="#blog" class="nav-link" data-section="blog">Blog</a></li>
-                <li><a href="#contact" class="nav-link" data-section="contact">Contact</a></li>
-                <li><button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
+                <li><a href="#hero" class="nav-link active" data-section="hero">Accueil</a></li>
+                <li><a href="#about" class="nav-link" data-section="about">À propos</a></li>
+                <li><a href="#skills" class="nav-link" data-section="skills">Compétences</a></li>
+                <li><a href="#projects" class="nav-link" data-section="projects">Projets</a></li>
+                <li><a href="#education" class="nav-link" data-section="education">Formation</a></li>
+                <li><button class="theme-toggle" id="theme-toggle" aria-label="Basculer le thème">
                     <i class="fas fa-moon"></i>
                 </button></li>
             </ul>
         </div>
     </nav>
 
-    <!-- Progress Indicator -->
-    <div class="progress-bar" id="progress-bar"></div>
-
     <main id="main-content">
         <!-- Hero Section -->
         <section id="hero" class="hero">
-            <div class="hero-particles"></div>
             <div class="container hero-container">
                 <div class="hero-content animate-fade-in">
-                    <div class="hero-avatar">
-                        <img src="https://ui-avatars.com/api/?name=Portfolio&size=200&background=667eea&color=fff&bold=true" alt="Profile avatar" class="avatar-img">
-                        <div class="avatar-ring"></div>
-                    </div>
-                    <h2 class="hero-title">
-                        <span class="greeting">Hello, I'm</span>
-                        <span class="name typing-text" id="typing-text">Your Name</span>
-                    </h2>
-                    <p class="hero-subtitle">
-                        <span class="subtitle-text">Full-Stack Developer</span>
-                        <span class="separator">|</span>
-                        <span class="subtitle-text">Django & TypeScript Specialist</span>
-                    </p>
+                    <div class="hero-eyebrow">Étudiant Master Actuariat &amp; Finance Quantitative</div>
+                    <h1 class="hero-title">Djousse Tedongmene Alex</h1>
+                    <p class="hero-subtitle">Futur Actuaire &amp; Data Scientist</p>
+
+                    <ul class="hero-meta" aria-label="Informations de contact">
+                        <li><i class="fas fa-location-dot" aria-hidden="true"></i><span>7011 Ghlin, Belgique</span></li>
+                        <li><i class="fas fa-envelope" aria-hidden="true"></i><a href="mailto:alextedongmene@gmail.com">alextedongmene@gmail.com</a></li>
+                        <li><i class="fab fa-github" aria-hidden="true"></i><a href="https://github.com/aldjoted" target="_blank" rel="noopener noreferrer">github.com/aldjoted</a></li>
+                    </ul>
+
                     <p class="hero-description">
-                        Crafting elegant solutions to complex problems with clean code and creative thinking
+                        Étudiant en Master Sciences Actuarielles (ULB) avec un fort background mathématique (UNamur). Passionné par la modélisation stochastique et l'ingénierie logicielle appliquée à la finance. Rigueur théorique et compétences pratiques en C++ et Python.
                     </p>
+
                     <div class="hero-cta">
                         <a href="#projects" class="btn btn-primary">
-                            <i class="fas fa-rocket"></i>
-                            View My Work
+                            <i class="fas fa-diagram-project"></i>
+                            Voir les projets
                         </a>
-                        <a href="#contact" class="btn btn-secondary">
-                            <i class="fas fa-envelope"></i>
-                            Get In Touch
-                        </a>
-                        <a href="#" class="btn btn-outline" id="download-cv">
-                            <i class="fas fa-download"></i>
-                            Download CV
+                        <a href="mailto:alextedongmene@gmail.com" class="btn btn-secondary">
+                            <i class="fas fa-paper-plane"></i>
+                            Contacter
                         </a>
                     </div>
-                    <div class="social-links">
-                        <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="GitHub">
-                            <i class="fab fa-github"></i>
-                        </a>
-                        <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="LinkedIn">
-                            <i class="fab fa-linkedin"></i>
-                        </a>
-                        <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Twitter">
-                            <i class="fab fa-twitter"></i>
-                        </a>
-                        <a href="mailto:your@email.com" class="social-link" aria-label="Email">
-                            <i class="fas fa-envelope"></i>
-                        </a>
-                    </div>
-                </div>
-                <div class="scroll-indicator">
-                    <span>Scroll to explore</span>
-                    <i class="fas fa-chevron-down"></i>
                 </div>
             </div>
         </section>
@@ -109,88 +81,30 @@
         <section id="about" class="about">
             <div class="container">
                 <div class="section-header animate-on-scroll">
-                    <span class="section-label">Get To Know Me</span>
-                    <h2 class="section-title">About Me</h2>
+                    <span class="section-label">Profil</span>
+                    <h2 class="section-title">À propos</h2>
                     <div class="section-divider"></div>
                 </div>
+
                 <div class="about-content animate-on-scroll">
-                    <div class="about-text">
-                        <p class="lead">I'm a passionate full-stack developer with expertise in building robust web applications using Django for backend and modern TypeScript for frontend development.</p>
-                        <p>With a keen eye for design and a commitment to writing clean, maintainable code, I transform ideas into elegant digital solutions. My approach combines technical excellence with user-centered design principles.</p>
-                        
-                        <!-- Statistics -->
-                        <div class="stats-grid">
-                            <div class="stat-card">
-                                <div class="stat-icon">
-                                    <i class="fas fa-code"></i>
-                                </div>
-                                <div class="stat-number" data-target="50">0</div>
-                                <div class="stat-label">Projects Completed</div>
-                            </div>
-                            <div class="stat-card">
-                                <div class="stat-icon">
-                                    <i class="fas fa-users"></i>
-                                </div>
-                                <div class="stat-number" data-target="30">0</div>
-                                <div class="stat-label">Happy Clients</div>
-                            </div>
-                            <div class="stat-card">
-                                <div class="stat-icon">
-                                    <i class="fas fa-award"></i>
-                                </div>
-                                <div class="stat-number" data-target="15">0</div>
-                                <div class="stat-label">Awards Won</div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Skills/Technologies -->
-                    <div class="about-skills">
-                        <h3>Technical Skills</h3>
-                        <div class="skills-list">
-                            <span class="skill-tag backend">Django</span>
-                            <span class="skill-tag frontend">TypeScript</span>
-                            <span class="skill-tag frontend">React</span>
-                            <span class="skill-tag backend">Python</span>
-                            <span class="skill-tag frontend">JavaScript</span>
-                            <span class="skill-tag database">PostgreSQL</span>
-                            <span class="skill-tag tools">Git</span>
-                            <span class="skill-tag frontend">HTML/CSS</span>
-                            <span class="skill-tag backend">REST APIs</span>
-                            <span class="skill-tag tools">Docker</span>
-                        </div>
-                    </div>
+                    <p class="lead">
+                        Étudiant en Master Sciences Actuarielles (ULB) avec un fort background mathématique (UNamur). Passionné par la modélisation stochastique et l'ingénierie logicielle appliquée à la finance. Rigueur théorique et compétences pratiques en C++ et Python.
+                    </p>
                 </div>
-                
-                <!-- Experience Timeline -->
-                <div class="timeline animate-on-scroll">
-                    <h3 class="timeline-title">Experience & Education</h3>
-                    <div class="timeline-items">
-                        <div class="timeline-item">
-                            <div class="timeline-dot"></div>
-                            <div class="timeline-content">
-                                <span class="timeline-date">2022 - Present</span>
-                                <h4>Senior Full-Stack Developer</h4>
-                                <p>Leading development of scalable web applications</p>
-                            </div>
-                        </div>
-                        <div class="timeline-item">
-                            <div class="timeline-dot"></div>
-                            <div class="timeline-content">
-                                <span class="timeline-date">2020 - 2022</span>
-                                <h4>Full-Stack Developer</h4>
-                                <p>Built and maintained multiple client projects</p>
-                            </div>
-                        </div>
-                        <div class="timeline-item">
-                            <div class="timeline-dot"></div>
-                            <div class="timeline-content">
-                                <span class="timeline-date">2016 - 2020</span>
-                                <h4>Computer Science Degree</h4>
-                                <p>Bachelor's degree with honors</p>
-                            </div>
-                        </div>
-                    </div>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section id="skills" class="skills">
+            <div class="container">
+                <div class="section-header animate-on-scroll">
+                    <span class="section-label">Compétences</span>
+                    <h2 class="section-title">Stack &amp; domaines</h2>
+                    <div class="section-divider"></div>
+                </div>
+
+                <div id="skills-grid" class="skills-grid" aria-label="Grille de compétences">
+                    <!-- Injected by main.ts -->
                 </div>
             </div>
         </section>
@@ -199,289 +113,51 @@
         <section id="projects" class="projects">
             <div class="container">
                 <div class="section-header animate-on-scroll">
-                    <span class="section-label">My Work</span>
-                    <h2 class="section-title">Featured Projects</h2>
+                    <span class="section-label">Portfolio</span>
+                    <h2 class="section-title">Projets académiques</h2>
                     <div class="section-divider"></div>
                 </div>
-                
-                <!-- Project Filters -->
-                <div class="project-filters animate-on-scroll">
-                    <button class="filter-btn active" data-filter="all">
-                        <i class="fas fa-th"></i>
-                        All Projects
-                    </button>
-                    <button class="filter-btn" data-filter="web">
-                        <i class="fas fa-globe"></i>
-                        Web Apps
-                    </button>
-                    <button class="filter-btn" data-filter="mobile">
-                        <i class="fas fa-mobile-alt"></i>
-                        Mobile
-                    </button>
-                    <button class="filter-btn" data-filter="api">
-                        <i class="fas fa-server"></i>
-                        APIs
-                    </button>
-                </div>
 
-                <div id="projects-list" class="projects-grid">
-                    <!-- Projects will be dynamically loaded here -->
-                    <div class="loading-skeleton">
-                        <div class="skeleton-card"></div>
-                        <div class="skeleton-card"></div>
-                        <div class="skeleton-card"></div>
-                    </div>
-                </div>
-                
-                <div class="projects-actions">
-                    <button class="btn btn-outline" id="load-more-projects">
-                        <i class="fas fa-plus"></i>
-                        Load More Projects
-                    </button>
-                </div>
-            </div>
-        </section>
-
-        <!-- Project Modal -->
-        <div class="modal" id="project-modal" role="dialog" aria-labelledby="modal-title" aria-modal="true">
-            <div class="modal-overlay" id="modal-overlay"></div>
-            <div class="modal-content">
-                <button class="modal-close" id="modal-close" aria-label="Close modal">
-                    <i class="fas fa-times"></i>
-                </button>
-                <div class="modal-body" id="modal-body">
-                    <!-- Project details will be loaded here -->
-                </div>
-            </div>
-        </div>
-
-        <!-- Blog Section -->
-        <section id="blog" class="blog">
-            <div class="container">
-                <div class="section-header animate-on-scroll">
-                    <span class="section-label">Insights & Articles</span>
-                    <h2 class="section-title">Latest Blog Posts</h2>
-                    <div class="section-divider"></div>
-                </div>
-                
-                <!-- Blog Search and Filter -->
-                <div class="blog-controls animate-on-scroll">
-                    <div class="search-box">
-                        <i class="fas fa-search"></i>
-                        <input type="text" id="blog-search" placeholder="Search articles..." aria-label="Search blog posts">
-                    </div>
-                    <div class="blog-categories" id="blog-categories">
-                        <button class="category-tag active" data-category="all">All</button>
-                        <!-- Categories will be loaded dynamically -->
-                    </div>
-                </div>
-
-                <div id="blog-posts-list" class="blog-grid">
-                    <!-- Blog posts will be dynamically loaded here -->
-                    <div class="loading-skeleton">
-                        <div class="skeleton-card"></div>
-                        <div class="skeleton-card"></div>
-                        <div class="skeleton-card"></div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Contact Section -->
-        <section id="contact" class="contact">
-            <div class="container">
-                <div class="section-header animate-on-scroll">
-                    <span class="section-label">Let's Connect</span>
-                    <h2 class="section-title">Get In Touch</h2>
-                    <div class="section-divider"></div>
-                </div>
-                
-                <div class="contact-wrapper">
-                    <!-- Contact Info -->
-                    <div class="contact-info animate-on-scroll">
-                        <h3>Contact Information</h3>
-                        <p class="contact-intro">Feel free to reach out! I'm always open to discussing new projects, creative ideas, or opportunities.</p>
-                        
-                        <div class="contact-details">
-                            <div class="contact-item">
-                                <div class="contact-icon">
-                                    <i class="fas fa-envelope"></i>
-                                </div>
-                                <div>
-                                    <h4>Email</h4>
-                                    <a href="mailto:your@email.com">your@email.com</a>
-                                </div>
-                            </div>
-                            
-                            <div class="contact-item">
-                                <div class="contact-icon">
-                                    <i class="fas fa-phone"></i>
-                                </div>
-                                <div>
-                                    <h4>Phone</h4>
-                                    <a href="tel:+1234567890">+1 (234) 567-890</a>
-                                </div>
-                            </div>
-                            
-                            <div class="contact-item">
-                                <div class="contact-icon">
-                                    <i class="fas fa-map-marker-alt"></i>
-                                </div>
-                                <div>
-                                    <h4>Location</h4>
-                                    <p>San Francisco, CA</p>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="contact-social">
-                            <h4>Follow Me</h4>
-                            <div class="social-links-large">
-                                <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="social-link-large" aria-label="GitHub">
-                                    <i class="fab fa-github"></i>
-                                </a>
-                                <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="social-link-large" aria-label="LinkedIn">
-                                    <i class="fab fa-linkedin"></i>
-                                </a>
-                                <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" class="social-link-large" aria-label="Twitter">
-                                    <i class="fab fa-twitter"></i>
-                                </a>
-                                <a href="https://dribbble.com" target="_blank" rel="noopener noreferrer" class="social-link-large" aria-label="Dribbble">
-                                    <i class="fab fa-dribbble"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Contact Form -->
-                    <form id="contact-form" class="contact-form animate-on-scroll">
-                        <h3>Send Me a Message</h3>
-                        
-                        <div class="form-group">
-                            <label for="name">
-                                <i class="fas fa-user"></i>
-                                Full Name
-                            </label>
-                            <input 
-                                type="text" 
-                                id="name" 
-                                name="name" 
-                                required
-                                aria-required="true"
-                                placeholder="John Doe"
-                            >
-                            <span class="form-error" id="name-error"></span>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="email">
-                                <i class="fas fa-envelope"></i>
-                                Email Address
-                            </label>
-                            <input 
-                                type="email" 
-                                id="email" 
-                                name="email" 
-                                required
-                                aria-required="true"
-                                placeholder="john@example.com"
-                            >
-                            <span class="form-error" id="email-error"></span>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="subject">
-                                <i class="fas fa-tag"></i>
-                                Subject
-                            </label>
-                            <input 
-                                type="text" 
-                                id="subject" 
-                                name="subject"
-                                placeholder="Project Inquiry"
-                            >
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="message">
-                                <i class="fas fa-comment"></i>
-                                Your Message
-                            </label>
-                            <textarea 
-                                id="message" 
-                                name="message" 
-                                rows="5" 
-                                required
-                                aria-required="true"
-                                placeholder="Tell me about your project..."
-                            ></textarea>
-                            <span class="form-error" id="message-error"></span>
-                        </div>
-                        
-                        <button type="submit" class="btn btn-primary btn-submit">
-                            <span class="btn-text">
-                                <i class="fas fa-paper-plane"></i>
-                                Send Message
-                            </span>
-                            <span class="btn-loader">
-                                <i class="fas fa-spinner fa-spin"></i>
-                                Sending...
-                            </span>
-                        </button>
-                        
-                        <div id="form-message" class="form-message"></div>
-                    </form>
+                <div id="projects-list" class="projects-grid" aria-label="Liste des projets">
+                    <!-- Injected by main.ts -->
                 </div>
             </div>
         </section>
     </main>
 
-    <!-- Back to Top Button -->
-    <button class="back-to-top" id="back-to-top" aria-label="Back to top">
-        <i class="fas fa-arrow-up"></i>
-    </button>
+    <!-- Formation -->
+    <section id="education" class="education">
+        <div class="container">
+            <div class="section-header animate-on-scroll">
+                <span class="section-label">Parcours</span>
+                <h2 class="section-title">Formation</h2>
+                <div class="section-divider"></div>
+            </div>
+
+            <div id="education-timeline" class="timeline animate-on-scroll" aria-label="Timeline de formation">
+                <!-- Injected by main.ts -->
+            </div>
+        </div>
+    </section>
 
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
-                <div class="footer-section">
-                    <h3>
-                        <span class="logo-icon">👨‍💻</span>
-                        Portfolio
-                    </h3>
-                    <p>Building digital experiences that make a difference.</p>
+                <div class="footer-left">
+                    <div class="footer-name">Djousse Tedongmene Alex</div>
+                    <div class="footer-title">Étudiant Master Actuariat &amp; Finance Quantitative</div>
                 </div>
-                
-                <div class="footer-section">
-                    <h4>Quick Links</h4>
-                    <ul class="footer-links">
-                        <li><a href="#about">About</a></li>
-                        <li><a href="#projects">Projects</a></li>
-                        <li><a href="#blog">Blog</a></li>
-                        <li><a href="#contact">Contact</a></li>
-                    </ul>
+                <div class="footer-right">
+                    <a class="footer-link" href="mailto:alextedongmene@gmail.com">
+                        <i class="fas fa-envelope" aria-hidden="true"></i>
+                        <span>Email</span>
+                    </a>
+                    <a class="footer-link" href="https://github.com/aldjoted" target="_blank" rel="noopener noreferrer">
+                        <i class="fab fa-github" aria-hidden="true"></i>
+                        <span>GitHub</span>
+                    </a>
                 </div>
-                
-                <div class="footer-section">
-                    <h4>Connect</h4>
-                    <div class="footer-social">
-                        <a href="https://github.com" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
-                            <i class="fab fa-github"></i>
-                        </a>
-                        <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-                            <i class="fab fa-linkedin"></i>
-                        </a>
-                        <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
-                            <i class="fab fa-twitter"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="footer-bottom">
-                <p>&copy; 2025 My Portfolio. All rights reserved.</p>
-                <p>Designed & Built with <i class="fas fa-heart"></i> by Your Name</p>
             </div>
         </div>
     </footer>

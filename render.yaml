@@ -40,7 +40,7 @@ services:
     envVars:
       # Django Core Settings
       - key: PYTHON_VERSION
-        value: "3.11"
+        value: "3.11.10"
       - key: DEBUG
         value: "False"
       - key: SECRET_KEY

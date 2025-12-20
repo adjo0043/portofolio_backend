@@ -158,7 +158,10 @@ interface PortfolioData {
 // Configuration
 // =============================================================================
 
-const API_BASE_URL = 'http://localhost:8000/api';
+// Use the production URL if not on localhost
+const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+    ? 'http://localhost:8000/api'
+    : 'https://portfolio-backend.onrender.com/api';
 
 // Fallback data in case API is unavailable
 const FALLBACK_DATA: PortfolioData = {

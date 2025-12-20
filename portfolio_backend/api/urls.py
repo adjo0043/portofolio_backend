@@ -7,7 +7,13 @@ from .views import (
     CategoryViewSet,
     TagViewSet,
     SubscriberViewSet,
-    HealthCheckViewSet
+    HealthCheckViewSet,
+    PortfolioView,
+    ProfileView,
+    SkillsView,
+    EducationView,
+    ExperienceView,
+    SocialLinksView
 )
 
 # Create a router and register our viewsets
@@ -22,4 +28,11 @@ router.register(r'health', HealthCheckViewSet, basename='health')
 
 urlpatterns = [
     path('', include(router.urls)),
+    # Portfolio content endpoints
+    path('portfolio/', PortfolioView.as_view(), name='portfolio'),
+    path('profile/', ProfileView.as_view(), name='profile'),
+    path('skills/', SkillsView.as_view(), name='skills'),
+    path('education/', EducationView.as_view(), name='education'),
+    path('experience/', ExperienceView.as_view(), name='experience'),
+    path('social-links/', SocialLinksView.as_view(), name='social-links'),
 ]

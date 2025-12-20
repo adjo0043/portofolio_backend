@@ -2,13 +2,19 @@ from rest_framework import viewsets, mixins, status, filters
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, AllowAny
+from rest_framework.views import APIView
 from django.core.cache import cache
 from django.db.models import Q, Prefetch
 from django.views.decorators.cache import cache_page
 from django.utils.decorators import method_decorator
 from django_filters.rest_framework import DjangoFilterBackend
 
-from .models import Project, BlogPost, ContactSubmission, Category, Tag, Subscriber
+from .models import (
+    Project, BlogPost, ContactSubmission, Category, Tag, Subscriber,
+    Profile, Education, SkillGroup, SkillItem, ProjectBullet,
+    SocialLink, Experience, ExperienceBullet, Certification,
+    Language, Interest, CustomSection, CustomSectionItem
+)
 from .serializers import (
     ProjectListSerializer,
     ProjectDetailSerializer,
@@ -17,7 +23,18 @@ from .serializers import (
     ContactSubmissionSerializer,
     CategorySerializer,
     TagSerializer,
-    SubscriberSerializer
+    SubscriberSerializer,
+    ProfileSerializer,
+    EducationSerializer,
+    SkillGroupSerializer,
+    SocialLinkSerializer,
+    ExperienceSerializer,
+    CertificationSerializer,
+    LanguageSerializer,
+    InterestSerializer,
+    CustomSectionSerializer,
+    PortfolioProjectSerializer,
+    PortfolioSerializer
 )
 from .pagination import StandardResultsSetPagination, LargeResultsSetPagination
 from .filters import ProjectFilter, BlogPostFilter, ContactSubmissionFilter
@@ -380,3 +397,169 @@ class HealthCheckViewSet(viewsets.ViewSet):
             status_data['status'] = 'degraded'
         
         return Response(status_data)
+
+
+class PortfolioView(APIView):
+    """
+    Main API endpoint that returns all portfolio content in a single request.
+    This is optimized for the frontend to load all data at once.
+    
+    Endpoints:
+    - GET /api/portfolio/ - Get complete portfolio data
+    """
+    permission_classes = [AllowAny]
+    
+    @method_decorator(cache_page(60 * 5))  # Cache for 5 minutes
+    def get(self, request):
+        """Return all portfolio data"""
+        cache_key = create_cache_key('portfolio', 'full')
+        cached_data = cache.get(cache_key)
+        
+        if cached_data is not None:
+            return Response(cached_data)
+        
+        # Get or create profile
+        profile = Profile.objects.first()
+        
+        # Gather all portfolio data with optimized queries
+        data = {
+            'profile': ProfileSerializer(
+                profile, 
+                context={'request': request}
+            ).data if profile else None,
+            
+            'skills': SkillGroupSerializer(
+                SkillGroup.objects.prefetch_related('items'),
+                many=True
+            ).data,
+            
+            'education': EducationSerializer(
+                Education.objects.all(),
+                many=True
+            ).data,
+            
+            'experiences': ExperienceSerializer(
+                Experience.objects.filter(is_active=True).prefetch_related('bullets'),
+                many=True
+            ).data,
+            
+            'certifications': CertificationSerializer(
+                Certification.objects.filter(is_active=True),
+                many=True
+            ).data,
+            
+            'languages': LanguageSerializer(
+                Language.objects.filter(is_active=True),
+                many=True
+            ).data,
+            
+            'interests': InterestSerializer(
+                Interest.objects.filter(is_active=True),
+                many=True
+            ).data,
+            
+            'projects': PortfolioProjectSerializer(
+                Project.objects.filter(status='published')
+                    .prefetch_related('bullets', 'tags')
+                    .order_by('-is_featured', 'order', '-created_at'),
+                many=True,
+                context={'request': request}
+            ).data,
+            
+            'custom_sections': CustomSectionSerializer(
+                CustomSection.objects.filter(is_active=True)
+                    .prefetch_related('items'),
+                many=True
+            ).data,
+        }
+        
+        cache.set(cache_key, data, 60 * 5)  # Cache for 5 minutes
+        return Response(data)
+
+
+class ProfileView(APIView):
+    """
+    API endpoint for profile data only
+    
+    Endpoints:
+    - GET /api/profile/ - Get profile data
+    """
+    permission_classes = [AllowAny]
+    
+    @method_decorator(cache_page(60 * 10))  # Cache for 10 minutes
+    def get(self, request):
+        """Return profile data"""
+        profile = Profile.objects.first()
+        if not profile:
+            return Response({'detail': 'Profile not configured'}, status=404)
+        
+        serializer = ProfileSerializer(profile, context={'request': request})
+        return Response(serializer.data)
+
+
+class SkillsView(APIView):
+    """
+    API endpoint for skills data
+    
+    Endpoints:
+    - GET /api/skills/ - Get all skill groups with items
+    """
+    permission_classes = [AllowAny]
+    
+    @method_decorator(cache_page(60 * 15))  # Cache for 15 minutes
+    def get(self, request):
+        """Return skills data"""
+        skills = SkillGroup.objects.prefetch_related('items').all()
+        serializer = SkillGroupSerializer(skills, many=True)
+        return Response(serializer.data)
+
+
+class EducationView(APIView):
+    """
+    API endpoint for education data
+    
+    Endpoints:
+    - GET /api/education/ - Get all education entries
+    """
+    permission_classes = [AllowAny]
+    
+    @method_decorator(cache_page(60 * 15))  # Cache for 15 minutes
+    def get(self, request):
+        """Return education data"""
+        education = Education.objects.all()
+        serializer = EducationSerializer(education, many=True)
+        return Response(serializer.data)
+
+
+class ExperienceView(APIView):
+    """
+    API endpoint for experience data
+    
+    Endpoints:
+    - GET /api/experience/ - Get all experience entries
+    """
+    permission_classes = [AllowAny]
+    
+    @method_decorator(cache_page(60 * 15))  # Cache for 15 minutes
+    def get(self, request):
+        """Return experience data"""
+        experience = Experience.objects.filter(is_active=True).prefetch_related('bullets')
+        serializer = ExperienceSerializer(experience, many=True)
+        return Response(serializer.data)
+
+
+class SocialLinksView(APIView):
+    """
+    API endpoint for social links
+    
+    Endpoints:
+    - GET /api/social-links/ - Get all social links
+    """
+    permission_classes = [AllowAny]
+    
+    @method_decorator(cache_page(60 * 15))  # Cache for 15 minutes
+    def get(self, request):
+        """Return social links"""
+        links = SocialLink.objects.filter(is_active=True)
+        serializer = SocialLinkSerializer(links, many=True)
+        return Response(serializer.data)

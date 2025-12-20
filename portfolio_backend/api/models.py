@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils.text import slugify
 from django.core.validators import FileExtensionValidator
+from django.core.exceptions import ValidationError
 from PIL import Image
 import os
 
@@ -310,3 +311,376 @@ class Subscriber(models.Model):
 
     def __str__(self):
         return self.email
+
+
+class Profile(models.Model):
+    """Singleton model for global site data and hero section"""
+    # Basic Info
+    name = models.CharField(max_length=100, default='Djousse Tedongmene Alex')
+    hero_title = models.CharField(
+        max_length=200, 
+        default='Futur Actuaire & Data Scientist',
+        help_text="Main headline displayed in the hero section"
+    )
+    hero_subtitle = models.CharField(
+        max_length=300, 
+        blank=True,
+        help_text="Optional subtitle below the main headline"
+    )
+    
+    # Contact Info
+    email = models.EmailField(default='alextedongmene@gmail.com')
+    phone = models.CharField(max_length=30, blank=True)
+    location = models.CharField(max_length=100, default='7011 Ghlin, Belgique')
+    
+    # Profile Images
+    profile_image = models.ImageField(
+        upload_to='profile/',
+        blank=True,
+        null=True,
+        validators=[FileExtensionValidator(['jpg', 'jpeg', 'png', 'webp'])],
+        help_text="Main profile/avatar image"
+    )
+    hero_background = models.ImageField(
+        upload_to='profile/',
+        blank=True,
+        null=True,
+        validators=[FileExtensionValidator(['jpg', 'jpeg', 'png', 'webp'])],
+        help_text="Background image for hero section"
+    )
+    
+    # About Section
+    bio = models.TextField(
+        default="Étudiant en Master Sciences Actuarielles (ULB)...",
+        help_text="Main bio/about text"
+    )
+    bio_short = models.CharField(
+        max_length=300,
+        blank=True,
+        help_text="Short bio for previews and meta descriptions"
+    )
+    
+    # Resume/CV
+    resume = models.FileField(
+        upload_to='profile/',
+        blank=True,
+        null=True,
+        validators=[FileExtensionValidator(['pdf', 'doc', 'docx'])],
+        help_text="Upload your resume/CV file"
+    )
+    
+    # Legacy field (kept for backward compatibility)
+    github_url = models.URLField(default='https://github.com/aldjoted', blank=True)
+    
+    # SEO Fields
+    meta_title = models.CharField(
+        max_length=70, 
+        blank=True,
+        help_text="SEO title for the website"
+    )
+    meta_description = models.CharField(
+        max_length=160, 
+        blank=True,
+        help_text="SEO description for the website"
+    )
+    
+    # Settings
+    show_blog = models.BooleanField(default=True, help_text="Show blog section")
+    show_projects = models.BooleanField(default=True, help_text="Show projects section")
+    show_contact = models.BooleanField(default=True, help_text="Show contact form")
+    
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        verbose_name = "Profile"
+        verbose_name_plural = "Profile"
+
+    def save(self, *args, **kwargs):
+        if not self.pk and Profile.objects.exists():
+            raise ValidationError('There can be only one Profile instance')
+        
+        # Set meta fields if not provided
+        if not self.meta_title:
+            self.meta_title = self.name
+        if not self.meta_description:
+            self.meta_description = self.bio_short or self.bio[:160]
+        
+        return super(Profile, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return self.name
+
+
+class Education(models.Model):
+    """Model for education timeline"""
+    date = models.CharField(max_length=50, help_text="e.g. 'Depuis 2025' or '2021–2025'")
+    title = models.CharField(max_length=200)
+    subtitle = models.CharField(max_length=200, help_text="Institution name")
+    order = models.IntegerField(default=0)
+
+    class Meta:
+        ordering = ['order']
+        verbose_name_plural = "Education"
+
+    def __str__(self):
+        return self.title
+
+
+class SkillGroup(models.Model):
+    """Model for skill categories"""
+    title = models.CharField(max_length=100)
+    icon = models.CharField(
+        max_length=100, 
+        blank=True,
+        default='fas fa-code',
+        help_text="FontAwesome icon class, e.g., 'fas fa-code'"
+    )
+    order = models.IntegerField(default=0)
+
+    class Meta:
+        ordering = ['order']
+
+    def __str__(self):
+        return self.title
+
+
+class SkillItem(models.Model):
+    """Model for specific skills within a group"""
+    group = models.ForeignKey(SkillGroup, related_name='items', on_delete=models.CASCADE)
+    name = models.CharField(max_length=100)
+    proficiency = models.IntegerField(
+        default=0,
+        help_text="Proficiency level from 0 to 100"
+    )
+    order = models.IntegerField(default=0)
+
+    class Meta:
+        ordering = ['order']
+
+    def __str__(self):
+        return self.name
+
+
+class ProjectBullet(models.Model):
+    """Model for bullet points in project details"""
+    project = models.ForeignKey(Project, related_name='bullets', on_delete=models.CASCADE)
+    text = models.TextField()
+    order = models.IntegerField(default=0)
+
+    class Meta:
+        ordering = ['order']
+
+    def __str__(self):
+        return self.text[:50]
+
+
+class SocialLink(models.Model):
+    """Model for social media links"""
+    ICON_CHOICES = [
+        ('github', 'GitHub'),
+        ('linkedin', 'LinkedIn'),
+        ('twitter', 'Twitter/X'),
+        ('facebook', 'Facebook'),
+        ('instagram', 'Instagram'),
+        ('youtube', 'YouTube'),
+        ('dribbble', 'Dribbble'),
+        ('behance', 'Behance'),
+        ('medium', 'Medium'),
+        ('dev', 'Dev.to'),
+        ('stackoverflow', 'Stack Overflow'),
+        ('codepen', 'CodePen'),
+        ('discord', 'Discord'),
+        ('telegram', 'Telegram'),
+        ('whatsapp', 'WhatsApp'),
+        ('email', 'Email'),
+        ('website', 'Website'),
+        ('other', 'Other'),
+    ]
+    
+    name = models.CharField(max_length=100)
+    url = models.URLField()
+    icon = models.CharField(max_length=50, choices=ICON_CHOICES, default='website')
+    custom_icon_class = models.CharField(
+        max_length=100, 
+        blank=True,
+        help_text="Custom FontAwesome class, e.g., 'fab fa-spotify'"
+    )
+    order = models.IntegerField(default=0)
+    is_active = models.BooleanField(default=True)
+
+    class Meta:
+        ordering = ['order']
+        verbose_name = "Social Link"
+        verbose_name_plural = "Social Links"
+
+    def __str__(self):
+        return self.name
+
+
+class Experience(models.Model):
+    """Model for work/professional experience"""
+    title = models.CharField(max_length=200, help_text="Job title")
+    company = models.CharField(max_length=200)
+    company_url = models.URLField(blank=True)
+    location = models.CharField(max_length=200, blank=True)
+    start_date = models.CharField(max_length=50, help_text="e.g., 'Jan 2023' or '2023'")
+    end_date = models.CharField(
+        max_length=50, 
+        blank=True, 
+        help_text="Leave blank for current position"
+    )
+    is_current = models.BooleanField(default=False)
+    description = models.TextField(blank=True)
+    order = models.IntegerField(default=0)
+    is_active = models.BooleanField(default=True)
+
+    class Meta:
+        ordering = ['order', '-is_current']
+        verbose_name = "Experience"
+        verbose_name_plural = "Experiences"
+
+    def __str__(self):
+        return f"{self.title} at {self.company}"
+
+
+class ExperienceBullet(models.Model):
+    """Model for bullet points in experience details"""
+    experience = models.ForeignKey(
+        Experience, 
+        related_name='bullets', 
+        on_delete=models.CASCADE
+    )
+    text = models.TextField()
+    order = models.IntegerField(default=0)
+
+    class Meta:
+        ordering = ['order']
+
+    def __str__(self):
+        return self.text[:50]
+
+
+class Certification(models.Model):
+    """Model for certifications and awards"""
+    name = models.CharField(max_length=200)
+    issuing_organization = models.CharField(max_length=200)
+    issue_date = models.CharField(max_length=50, help_text="e.g., 'Dec 2024' or '2024'")
+    expiry_date = models.CharField(max_length=50, blank=True)
+    credential_id = models.CharField(max_length=200, blank=True)
+    credential_url = models.URLField(blank=True)
+    description = models.TextField(blank=True)
+    order = models.IntegerField(default=0)
+    is_active = models.BooleanField(default=True)
+
+    class Meta:
+        ordering = ['order']
+        verbose_name = "Certification"
+        verbose_name_plural = "Certifications"
+
+    def __str__(self):
+        return self.name
+
+
+class Language(models.Model):
+    """Model for language proficiency"""
+    PROFICIENCY_CHOICES = [
+        ('native', 'Native / Bilingual'),
+        ('fluent', 'Fluent'),
+        ('advanced', 'Advanced'),
+        ('intermediate', 'Intermediate'),
+        ('beginner', 'Beginner'),
+    ]
+    
+    name = models.CharField(max_length=100)
+    proficiency = models.CharField(max_length=20, choices=PROFICIENCY_CHOICES)
+    order = models.IntegerField(default=0)
+    is_active = models.BooleanField(default=True)
+
+    class Meta:
+        ordering = ['order']
+        verbose_name = "Language"
+        verbose_name_plural = "Languages"
+
+    def __str__(self):
+        return f"{self.name} ({self.get_proficiency_display()})"
+
+
+class Interest(models.Model):
+    """Model for personal interests and hobbies"""
+    name = models.CharField(max_length=100)
+    icon = models.CharField(
+        max_length=100, 
+        blank=True,
+        help_text="FontAwesome icon class, e.g., 'fas fa-music'"
+    )
+    order = models.IntegerField(default=0)
+    is_active = models.BooleanField(default=True)
+
+    class Meta:
+        ordering = ['order']
+        verbose_name = "Interest"
+        verbose_name_plural = "Interests"
+
+    def __str__(self):
+        return self.name
+
+
+class CustomSection(models.Model):
+    """Model for creating custom dynamic sections"""
+    title = models.CharField(max_length=200)
+    slug = models.SlugField(max_length=200, unique=True)
+    icon = models.CharField(
+        max_length=100, 
+        blank=True,
+        help_text="FontAwesome icon class, e.g., 'fas fa-star'"
+    )
+    content = models.TextField(
+        blank=True,
+        help_text="Rich text content (supports HTML)"
+    )
+    order = models.IntegerField(default=0)
+    is_active = models.BooleanField(default=True)
+    show_in_nav = models.BooleanField(
+        default=True, 
+        help_text="Show this section in navigation"
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['order']
+        verbose_name = "Custom Section"
+        verbose_name_plural = "Custom Sections"
+
+    def __str__(self):
+        return self.title
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.title)
+        super().save(*args, **kwargs)
+
+
+class CustomSectionItem(models.Model):
+    """Model for items within a custom section"""
+    section = models.ForeignKey(
+        CustomSection, 
+        related_name='items', 
+        on_delete=models.CASCADE
+    )
+    title = models.CharField(max_length=200)
+    subtitle = models.CharField(max_length=300, blank=True)
+    description = models.TextField(blank=True)
+    date = models.CharField(max_length=100, blank=True)
+    url = models.URLField(blank=True)
+    icon = models.CharField(max_length=100, blank=True)
+    order = models.IntegerField(default=0)
+    is_active = models.BooleanField(default=True)
+
+    class Meta:
+        ordering = ['order']
+        verbose_name = "Custom Section Item"
+        verbose_name_plural = "Custom Section Items"
+
+    def __str__(self):
+        return self.title

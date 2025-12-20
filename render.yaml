@@ -21,9 +21,6 @@ services:
     region: frankfurt  # Adjust based on target audience
     plan: starter      # Options: starter, standard, pro
     
-    # Python version detected from Dockerfile
-    pythonVersion: "3.11"
-    
     # Root directory for the backend
     rootDir: portfolio_backend
     
@@ -168,7 +165,6 @@ databases:
 #   - type: worker
 #     name: portfolio-worker
 #     runtime: python
-#     pythonVersion: "3.11"
 #     rootDir: portfolio_backend
 #     buildCommand: pip install -r requirements.txt
 #     startCommand: celery -A portfolio_backend worker -l info

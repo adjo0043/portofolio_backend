@@ -40,6 +40,16 @@ if command -v npm &> /dev/null; then
     
     echo "   → Compiling TypeScript to JavaScript..."
     npm run build
+
+    echo "   → Copying frontend assets into Django static directory..."
+    mkdir -p ../portfolio_backend/static/frontend/dist
+    cp -R dist/. ../portfolio_backend/static/frontend/dist/
+    if [ -f style.css ]; then
+        cp style.css ../portfolio_backend/static/frontend/style.css
+    fi
+    if [ -f favicon.ico ]; then
+        cp favicon.ico ../portfolio_backend/static/frontend/favicon.ico
+    fi
     
     echo "   ✅ Frontend build complete!"
 else

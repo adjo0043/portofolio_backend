@@ -175,16 +175,9 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-# Include frontend directory in static files search path
-# This allows collectstatic to pick up the compiled frontend assets
-FRONTEND_DIR = BASE_DIR.parent / 'frontend'
-STATICFILES_DIRS = [
-    BASE_DIR / 'static',
-]
-if FRONTEND_DIR.exists():
-    STATICFILES_DIRS.append(FRONTEND_DIR)
-elif (BASE_DIR / 'static').exists() is False:
-    STATICFILES_DIRS = []
+# Only collect static files from the backend's static directory.
+# Frontend build artifacts are copied into BASE_DIR/static/frontend/ by build.sh.
+STATICFILES_DIRS = [BASE_DIR / 'static'] if (BASE_DIR / 'static').exists() else []
 
 # WhiteNoise configuration for serving static files
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'

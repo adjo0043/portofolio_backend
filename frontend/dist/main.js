@@ -382,6 +382,30 @@ function renderHero() {
     if (contactBtn && profile.email) {
         contactBtn.href = `mailto:${profile.email}`;
     }
+    // Render Profile Image if available
+    const heroContainer = document.querySelector('.hero-container');
+    const existingImage = document.querySelector('.hero-image-container');
+    if (profile.avatar && heroContainer) {
+        if (!existingImage) {
+            const imageContainer = el('div', 'hero-image-container animate-fade-in');
+            const img = el('img', 'hero-avatar');
+            img.src = profile.avatar;
+            img.alt = profile.full_name;
+            imageContainer.appendChild(img);
+            // Insert before content if desktop, or adjust via CSS order
+            heroContainer.appendChild(imageContainer);
+            heroContainer.classList.add('has-image');
+        }
+        else {
+            const img = existingImage.querySelector('img');
+            if (img)
+                img.src = profile.avatar;
+        }
+    }
+    else if (existingImage) {
+        existingImage.remove();
+        heroContainer?.classList.remove('has-image');
+    }
 }
 function renderAbout() {
     const profile = portfolioData.profile;

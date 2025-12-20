@@ -19,7 +19,7 @@ services:
     name: portfolio-backend
     runtime: python
     region: frankfurt  # Adjust based on target audience
-    plan: starter      # Options: starter, standard, pro
+    plan: free         # Use the free tier for the web service
     
     # Root directory for the backend
     rootDir: portfolio_backend
@@ -137,7 +137,7 @@ services:
 # ============================================================================
 databases:
   - name: portfolio-db
-    plan: starter       # Options: starter, standard, pro
+    plan: free          # Use the free tier for the database
     region: frankfurt   # Match with web service region
     databaseName: portfolio_db
     user: portfolio_user
